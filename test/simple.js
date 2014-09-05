@@ -4,6 +4,7 @@
 var parser = require('../lib/parser'),
     fs = require('fs'),
     assert = require('assert'),
+    through = require('through'),
     fixtures = {
         S72: 'test/fixtures/S7.2_A1.1_T1.js',
         S11_4: 'test/fixtures/11.4.1-5-a-5gs.js'
@@ -58,6 +59,26 @@ it('recovers from bad YAML', function () {
     };
     file = parser.parseFile(file);
     //TD(smikes): assert logged message (or exception)
+});
+
+it('sends an error event when the stream errors', function (done) {
+    function f(i) {
+        throw new Error('foo' + i);
+    }
+
+    var t = through(function (i) {
+        try {
+            f(i);
+        } catch (e) {
+            t.emit('error', e);
+        }
+    });
+    t.on('error', function () {
+        done();
+    });
+
+    t.write("thing");
+    t.end();
 });
 
 // should be last test: ends stream (not repeatable)
