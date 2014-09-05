@@ -10,6 +10,7 @@ var parser = require('../lib/parser'),
     };
 
 Object.keys(fixtures).forEach(function (k) {
+    /*jslint stupid:true*/
     fixtures[k] = fs.readFileSync(fixtures[k], {encoding: 'utf-8'});
 });
 
@@ -42,7 +43,7 @@ it('parses an empty file', function () {
     file = parser.parseFile(file);
 
     assert.deepEqual({
-        contents: '', 
+        contents: '',
         attrs: {
             includes: [],
             flags: {}
@@ -56,7 +57,7 @@ it('recovers from bad YAML', function () {
         contents: '/*---\n badYaml: value\ninsufficient_indent: value\nno_value:\n---*/'
     };
     file = parser.parseFile(file);
-    // TODO: assert log (or exception)
+    //TD(smikes): assert logged message (or exception)
 });
 
 // should be last test: ends stream (not repeatable)
