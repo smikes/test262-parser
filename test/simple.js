@@ -10,7 +10,8 @@ var parser = require('../lib/parser'),
     fixtures = {
         S72: 'test/fixtures/S7.2_A1.1_T1.js',
         S11_4: 'test/fixtures/11.4.1-5-a-5gs.js',
-        badYAML: 'test/fixtures/badYAML.js'
+        badYAML: 'test/fixtures/badYAML.js',
+        async: 'test/fixtures/async.js'
     };
 
 Object.keys(fixtures).forEach(function (k) {
@@ -44,6 +45,7 @@ it('parses an empty file', function () {
 
     assert.deepEqual({
         contents: '',
+        async: false,
         attrs: {
             includes: [],
             flags: {}
@@ -60,6 +62,15 @@ it('recovers from bad YAML', function () {
     assert.throws(function () {
         file = parser.parseFile(file);
     }, /YAML/);
+});
+
+it('decides if a test is async', function () {
+    var file = {
+        file: '',
+        contents: fixtures.async
+    };
+
+    assert.equal(parser.parseFile(file).async, true);
 });
 
 // should be last test: ends stream (not repeatable)
