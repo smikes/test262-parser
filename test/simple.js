@@ -7,7 +7,8 @@ var parser = require('../lib/parser'),
     through = require('through'),
     fixtures = {
         S72: 'test/fixtures/S7.2_A1.1_T1.js',
-        S11_4: 'test/fixtures/11.4.1-5-a-5gs.js'
+        S11_4: 'test/fixtures/11.4.1-5-a-5gs.js',
+        badYAML: 'test/fixtures/badYAML.js'
     };
 
 Object.keys(fixtures).forEach(function (k) {
@@ -55,10 +56,12 @@ it('parses an empty file', function () {
 it('recovers from bad YAML', function () {
     var file = {
         file: 'mock_filename.js',
-        contents: '/*---\n badYaml: value\ninsufficient_indent: value\nno_value:\n---*/'
+        contents: fixtures.badYAML
     };
-    file = parser.parseFile(file);
-    //TD(smikes): assert logged message (or exception)
+    
+    assert.throws(function () {
+        file = parser.parseFile(file);
+    },/YAML/);
 });
 
 it('sends an error event when the stream errors', function (done) {
@@ -83,22 +86,32 @@ it('sends an error event when the stream errors', function (done) {
 
 // should be last test: ends stream (not repeatable)
 it('provides a stream interface', function (done) {
-    var processedCount = 0,
-        file = {
-            file: 'S72',
-            contents: fixtures.S72
-        };
+    var counts = {
+        processed: 0,
+        error: 0
+    };
 
     parser.on('data', function (f) {
         assert.equal(f.file, 'S72');
         assert.equal(f.attrs.es5id, '7.2_A1.1_T1');
-        processedCount += 1;
+        counts.processed += 1;
+    });
+    parser.on('error', function (e) {
+        counts.error += 1;
     });
     parser.on('end', function () {
-        assert.equal(processedCount, 1);
+        assert.equal(counts.processed, 1);
+        assert.equal(counts.error, 1);
         done();
     });
 
-    parser.write(file);
+    parser.write({
+            file: 'S72',
+            contents: fixtures.S72
+    });
+    parser.write({ 
+        file: 'badYAML.js',
+        contents: fixtures.badYAML
+    });
     parser.end();
 });
