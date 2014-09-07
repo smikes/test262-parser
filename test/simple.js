@@ -1,3 +1,5 @@
+// Copyright (C) 2014, Test262 Project Authors. All rights reserved.
+// This code is governed by the BSD License found in the LICENSE file.
 /*global it*/
 "use strict";
 
@@ -54,10 +56,10 @@ it('recovers from bad YAML', function () {
         file: 'mock_filename.js',
         contents: fixtures.badYAML
     };
-    
+
     assert.throws(function () {
         file = parser.parseFile(file);
-    },/YAML/);
+    }, /YAML/);
 });
 
 // should be last test: ends stream (not repeatable)
@@ -83,10 +85,10 @@ it('provides a stream interface', function (done) {
     });
 
     parser.write({
-            file: 'S72',
-            contents: fixtures.S72
+        file: 'S72',
+        contents: fixtures.S72
     });
-    parser.write({ 
+    parser.write({
         file: 'badYAML.js',
         contents: fixtures.badYAML
     });
