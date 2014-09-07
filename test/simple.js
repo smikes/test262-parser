@@ -40,6 +40,7 @@ it('parses a fixture with flags', function () {
 it('extracts the YAML', function () {
     assert.equal(parser.extractYAML("/*---foo---*/"), "foo");
     assert.equal(parser.extractYAML("/*---\nfoo\n---*/"), "\nfoo\n");
+    assert.equal(parser.extractYAML("no yaml here"), "");
 });
 
 it('parses an empty file', function () {
