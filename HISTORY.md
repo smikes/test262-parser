@@ -1,3 +1,7 @@
+### Version 1.1.2
+
+- refactor internals
+
 ### Version 1.1.1
 
 - factor out extractYAML
