@@ -16,10 +16,6 @@ Object.keys(fixtures).forEach(function (k) {
     fixtures[k] = fs.readFileSync(fixtures[k], {encoding: 'utf-8'});
 });
 
-it('runs a test', function () {
-    assert(true);
-});
-
 it('parses a fixture', function () {
     var file = {
         contents: fixtures.S72
@@ -64,26 +60,6 @@ it('recovers from bad YAML', function () {
     },/YAML/);
 });
 
-it('sends an error event when the stream errors', function (done) {
-    function f(i) {
-        throw new Error('foo' + i);
-    }
-
-    var t = through(function (i) {
-        try {
-            f(i);
-        } catch (e) {
-            t.emit('error', e);
-        }
-    });
-    t.on('error', function () {
-        done();
-    });
-
-    t.write("thing");
-    t.end();
-});
-
 // should be last test: ends stream (not repeatable)
 it('provides a stream interface', function (done) {
     var counts = {
@@ -97,6 +73,7 @@ it('provides a stream interface', function (done) {
         counts.processed += 1;
     });
     parser.on('error', function (e) {
+        assert.ok(/YAML/.test(e));
         counts.error += 1;
     });
     parser.on('end', function () {
