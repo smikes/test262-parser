@@ -37,6 +37,10 @@ it('parses a fixture with flags', function () {
     assert.equal(file.attrs.flags.onlyStrict, true);
 });
 
+it('extracts the YAML', function () {
+    assert.equal(parser.extractYAML("/*---foo---*/"), "foo");
+});
+
 it('parses an empty file', function () {
     var file = {
         contents: ''
