@@ -7,7 +7,8 @@
     "test": "mocha",
     "cover": "istanbul cover --root lib --print=both -- node_modules/mocha/bin/_mocha",
     "lint": "./node_modules/.bin/jslint --terse lib/*.js test/*.js",
-    "doc": "./node_modules/.bin/yuidoc"
+    "doc": "./node_modules/.bin/yuidoc",
+    "prepublish": "npm run-script doc"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,10 @@
     "Sam Mikes"
   ],
   "license": "MSFT MIT-like",
+  "directories": [
+    "lib",
+    "doc"
+  ],
   "bugs": {
     "url": "https://github.com/smikes/test262-parser/issues"
   },
