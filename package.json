@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha",
     "cover": "istanbul cover --root lib --print=both -- node_modules/mocha/bin/_mocha",
-    "lint": "./node_modules/.bin/jslint --terse lib/*.js test/*.js"
+    "lint": "./node_modules/.bin/jslint --terse lib/*.js test/*.js",
+    "doc": "./node_modules/.bin/yuidoc"
   },
   "repository": {
     "type": "git",
@@ -31,7 +32,8 @@
   "devDependencies": {
     "istanbul": "^0.3.2",
     "jslint": "^0.6.2",
-    "mocha": "^1.21.4"
+    "mocha": "^1.21.4",
+    "yuidocjs": "~0.3.50"
   },
   "dependencies": {
     "js-yaml": "^3.2.1",
