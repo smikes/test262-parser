@@ -1,3 +1,7 @@
+### Version 1.1.3 
+
+- add documentation
+
 ### Version 1.1.2
 
 - refactor internals
