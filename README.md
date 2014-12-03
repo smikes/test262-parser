@@ -6,7 +6,20 @@ This package will allow you to parse [test262](https://github.com/tc39/test262/)
 
 ### parseFile
 
-The simplest function exported by this module is `parseFile`, which works like so:
+The simplest function exported by this module is `parseFile`, which expects either a string representing the file contents, or an object with members `file` and `contents`, which are strings containing the filename and contents respectively.
+
+The result of parseFile is an object `f` with (at least) a `contents` member.
+
+If the input to parseFile contains the special YAML frontmatter comments `/*---` `---*/`, then the following things are done:
+
+1. the copyright message is stored in `f.copyright`
+2. the YAML frontmatter is parsed and stored as an object, `f.attrs`
+3. the test's async status (`true`/`false`) is stored in `f.async`
+4. `f.contents` is **modified** to contain only the text following the YAML closer comment `---*/`
+
+If the input does not contain YAML frontmatter, some of the above parsing is still attempted but the `f.contents` member will **remain unchanged**.  This provides backwards compatibility to `test262-runner` which uses `parseFile` to parse test helpers as well as test files.
+
+#### parseFile examples
 
 ```js
 'use strict';
