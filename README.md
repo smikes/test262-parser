@@ -32,6 +32,15 @@ console.log(file.async);
 // Outputs `true` or `false` depending on whether the test is async:
 // https://github.com/tc39/test262/blob/master/CONTRIBUTING.md#writing-asynchronous-tests
 
+console.log(file.copyright);
+// Outputs copyright header 
+// https://github.com/tc39/test262/blob/master/CONTRIBUTING.md#copyright
+
+console.log(file.testBody);
+// Outputs the body of the test
+// by convention, the body of the test begins after the '---*/' frontmatter closing comment
+
+
 // You can also parse test contents directly; it will create a file object
 var parsedFile = test262Parser.parseFile(testContents);
 
@@ -65,7 +74,7 @@ author: Domenic Denicola
 
 ### Streaming interface
 
-The default export of the module is a transform stream factory. Ever time you write a string to the transform stream, it emits a parsed file object:
+The default export of the module is a transform stream factory. Ever time you write a string or file object to the transform stream, it emits a parsed file object:
 
 ```js
 'use strict';
