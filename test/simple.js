@@ -61,7 +61,9 @@ it('parses an empty file', function () {
         attrs: {
             includes: [],
             flags: {}
-        }
+        },
+        copyright: '',
+        testBody: ''
     }, file);
 });
 
@@ -84,6 +86,42 @@ it('decides if a test is async', function () {
 
     assert.equal(parser.parseFile(file).async, true);
 });
+
+describe('identifies copyright headers', function () {
+    it('in S72', function () {
+        var file = parser.parseFile(fixtures.S72),
+            expected =
+                "// Copyright 2009 the Sputnik authors.  All rights reserved.\n" +
+                "// This code is governed by the BSD license found in the LICENSE file.\n";
+
+        assert.equal(file.copyright, expected)
+    });
+
+    it('in S11_4', function () {
+        var file = parser.parseFile(fixtures.S11_4);
+
+        assert(file.copyright.search(/^\/\/ Copyright (c) 2012 Ecma/));
+        assert(file.copyright.search(/comply with the Use Terms.$/));
+    });
+
+});
+
+describe('identifies body', function () {
+    it('in S72', function () {
+        var file = parser.parseFile(fixtures.S72);
+
+        assert(file.testBody.search(/^\/\/ CHECK#1"/));
+        assert(file.testBody.search(/\)\);\n}$/m));
+    });
+
+    it('in S11_4', function () {
+        var file = parser.parseFile(fixtures.S11_4);
+
+        assert(file.testBody.search(/^"use strict";/));
+        assert(file.testBody.search(/delete _11_4_1_5$/));
+    });
+});
+
 
 // should be last test: ends stream (not repeatable)
 it('provides a stream interface', function (done) {
