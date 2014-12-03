@@ -121,6 +121,14 @@ describe('identifies body', function () {
     });
 });
 
+describe('works on non-formatted files', function () {
+    it('does not destroy file if missing YAML frontmatter', function () {
+        var file = parser.parseFile("var foo = 3;");
+
+        assert.equal(file.contents, "var foo = 3;");
+    });
+});
+
 
 // should be last test: ends stream (not repeatable)
 it('provides a stream interface', function (done) {
