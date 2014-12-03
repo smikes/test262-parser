@@ -26,16 +26,16 @@ If the input does not contain YAML frontmatter, some of the above parsing is sti
 var fs = require('fs');
 var test262Parser = require('test262-parser');
 
-var testContents = fs.readFileSync('built-ins/Array/prototype/includes/array-like.js');
+var rawTest = fs.readFileSync('built-ins/Array/prototype/includes/array-like.js');
 
 // Pass in file object and it will be mutated with parsed data:
 var file = {
     file: 'built-ins/Array/prototype/includes/array-like.js',
-    contents: testContents
+    contents: rawTest
 };
 
 test262Parser.parseFile(file);
-// `file` now has `attrs` and `async` properties
+// `file` now has `attrs`, `async`, and `copyright` properties, with `contents` modified
 
 console.log(file.attrs);
 // Outputs normalized attributes from the YAML front-matter:
@@ -46,16 +46,20 @@ console.log(file.async);
 // https://github.com/tc39/test262/blob/master/CONTRIBUTING.md#writing-asynchronous-tests
 
 console.log(file.copyright);
-// Outputs copyright header 
+// Outputs the copyright header:
 // https://github.com/tc39/test262/blob/master/CONTRIBUTING.md#copyright
 
-// You can also parse test contents directly; it will create a file object
-var parsedFile = test262Parser.parseFile(testContents);
+console.log(file.contents);
+// Outputs the main test body, without the copyright or YAML front-matter.
 
-console.log(parsedFile.file);     // '<unknown>'
-console.log(parsedFile.contents); // the same as `testContents`
-console.log(parsedFile.attrs);    // the normalized attributes
-consoel.log(parsedFile.async);    // whether or not the test is async
+// You can also parse test contents directly; it will create a file object
+var parsedFile = test262Parser.parseFile(rawTest);
+
+console.log(parsedFile.file);      // '<unknown>'
+console.log(parsedFile.contents);  // the main test body
+console.log(parsedFile.copyright); // the copyright header
+console.log(parsedFile.attrs);     // the normalized attributes
+consoel.log(parsedFile.async);     // whether or not the test is async
 ```
 
 ### extractYAML
