@@ -1,6 +1,6 @@
 // Copyright (C) 2014, Test262 Project Authors. All rights reserved.
 // This code is governed by the BSD License found in the LICENSE file.
-/*global it*/
+/*global it, describe */
 "use strict";
 
 var parser = require('../lib/parser'),
@@ -94,14 +94,14 @@ describe('identifies copyright headers', function () {
                 "// Copyright 2009 the Sputnik authors.  All rights reserved.\n" +
                 "// This code is governed by the BSD license found in the LICENSE file.\n";
 
-        assert.equal(file.copyright, expected)
+        assert.equal(file.copyright, expected);
     });
 
     it('in S11_4', function () {
         var file = parser.parseFile(fixtures.S11_4);
 
         assert(file.copyright.search(/^\/\/ Copyright (c) 2012 Ecma/));
-        assert(file.copyright.search(/comply with the Use Terms.$/));
+        assert(file.copyright.search(/comply with the Use Terms\.$/));
     });
 
 });
@@ -111,7 +111,7 @@ describe('identifies body', function () {
         var file = parser.parseFile(fixtures.S72);
 
         assert(file.testBody.search(/^\/\/ CHECK#1"/));
-        assert(file.testBody.search(/\)\);\n}$/m));
+        assert(file.testBody.search(/\)\);\n\}$/m));
     });
 
     it('in S11_4', function () {
