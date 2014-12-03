@@ -37,8 +37,8 @@
   "devDependencies": {
     "istanbul": "^0.3.2",
     "jslint": "^0.6.2",
-    "mocha": "^1.21.4",
-    "yuidocjs": "~0.3.50"
+    "mocha": "^2.0.1",
+    "yuidocjs": "^0.4.0"
   },
   "dependencies": {
     "js-yaml": "^3.2.1",
