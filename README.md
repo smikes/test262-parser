@@ -74,7 +74,7 @@ author: Domenic Denicola
 
 ### Streaming interface
 
-The default export of the module is a transform stream factory. Ever time you write a string or file object to the transform stream, it emits a parsed file object:
+The default export of the module is a transform stream factory. Every time you write a string or file object to the transform stream, it emits a parsed file object:
 
 ```js
 'use strict';
