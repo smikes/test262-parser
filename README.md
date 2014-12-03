@@ -36,11 +36,6 @@ console.log(file.copyright);
 // Outputs copyright header 
 // https://github.com/tc39/test262/blob/master/CONTRIBUTING.md#copyright
 
-console.log(file.testBody);
-// Outputs the body of the test
-// by convention, the body of the test begins after the '---*/' frontmatter closing comment
-
-
 // You can also parse test contents directly; it will create a file object
 var parsedFile = test262Parser.parseFile(testContents);
 

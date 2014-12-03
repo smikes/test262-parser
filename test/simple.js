@@ -62,8 +62,7 @@ it('parses an empty file', function () {
             includes: [],
             flags: {}
         },
-        copyright: '',
-        testBody: ''
+        copyright: ''
     }, file);
 });
 
@@ -110,15 +109,15 @@ describe('identifies body', function () {
     it('in S72', function () {
         var file = parser.parseFile(fixtures.S72);
 
-        assert(file.testBody.search(/^\/\/ CHECK#1"/));
-        assert(file.testBody.search(/\)\);\n\}$/m));
+        assert(file.contents.search(/^\/\/ CHECK#1"/));
+        assert(file.contents.search(/\)\);\n\}$/m));
     });
 
     it('in S11_4', function () {
         var file = parser.parseFile(fixtures.S11_4);
 
-        assert(file.testBody.search(/^"use strict";/));
-        assert(file.testBody.search(/delete _11_4_1_5$/));
+        assert(file.contents.search(/^"use strict";/));
+        assert(file.contents.search(/delete _11_4_1_5$/));
     });
 });
 
