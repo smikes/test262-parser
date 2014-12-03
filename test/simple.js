@@ -28,6 +28,12 @@ it('parses a fixture', function () {
     assert.equal(file.attrs.es5id, '7.2_A1.1_T1');
 });
 
+it ('parses a fixture when given only the contents as a string', function () {
+    var file = parser.parseFile(fixtures.S72);
+
+    assert.equal(file.attrs.es5id, '7.2_A1.1_T1');
+});
+
 it('parses a fixture with flags', function () {
     var file = {
         contents: fixtures.S11_4
