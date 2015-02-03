@@ -6,8 +6,8 @@
   "scripts": {
     "test": "mocha",
     "cover": "istanbul cover --root lib --print=both -- node_modules/mocha/bin/_mocha",
-    "lint": "./node_modules/.bin/jslint --terse lib/*.js test/*.js",
-    "doc": "./node_modules/.bin/yuidoc",
+    "lint": "jslint --terse lib/*.js test/*.js",
+    "doc": "yuidoc",
     "mypublish": "npm run-script doc; npm publish"
   },
   "repository": {
