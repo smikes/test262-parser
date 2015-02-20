@@ -1,6 +1,6 @@
 {
   "name": "test262-parser",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Parse a test262-format test and provide API",
   "main": "lib/parser.js",
   "scripts": {
