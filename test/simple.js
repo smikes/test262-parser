@@ -8,10 +8,11 @@ var parser = require('../lib/parser'),
     assert = require('assert'),
     through = require('through'),
     fixtures = {
-        S72: 'test/fixtures/S7.2_A1.1_T1.js',
         S11_4: 'test/fixtures/11.4.1-5-a-5gs.js',
-        badYAML: 'test/fixtures/badYAML.js',
+        S72: 'test/fixtures/S7.2_A1.1_T1.js',
         async: 'test/fixtures/async.js',
+        badYAML: 'test/fixtures/badYAML.js',
+        issue_9: 'test/fixtures/issue_9.js',
         no_newline: 'test/fixtures/no_newline.js'
     };
 
@@ -63,7 +64,8 @@ it('parses an empty file', function () {
             includes: [],
             flags: {}
         },
-        copyright: ''
+        copyright: '',
+        isATest: false
     }, file);
 });
 
@@ -134,7 +136,15 @@ describe('works on non-formatted files', function () {
     });
 });
 
+describe('reports non-test262 file', function () {
+  it('detects a non-test262 file', function () {
+    var file = parser.parseFile(fixtures.issue_9);
 
+    assert(!file.isATest)
+  });
+});
+
+describe('has a stream interface', function () {
 // should be last test: ends stream (not repeatable)
 it('provides a stream interface', function (done) {
     var counts = {
@@ -166,4 +176,5 @@ it('provides a stream interface', function (done) {
         contents: fixtures.badYAML
     });
     parser.end();
+});
 });
