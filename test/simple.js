@@ -13,7 +13,8 @@ var parser = require('../lib/parser'),
         async: 'test/fixtures/async.js',
         badYAML: 'test/fixtures/badYAML.js',
         issue_9: 'test/fixtures/issue_9.js',
-        no_newline: 'test/fixtures/no_newline.js'
+        no_newline: 'test/fixtures/no_newline.js',
+        promise_length: 'test/fixtures/promise_length.js'
     };
 
 Object.keys(fixtures).forEach(function (k) {
@@ -133,6 +134,23 @@ describe('works on non-formatted files', function () {
 
     it('does not fail if no newline at end of file', function () {
         var file = parser.parseFile(fixtures.no_newline);
+    });
+});
+
+describe('reports valid test262 file', function() {
+    it('in S72', function () {
+        var file = parser.parseFile(fixtures.S72);
+        assert(file.isATest);
+    });
+
+    it('in S11_4', function () {
+        var file = parser.parseFile(fixtures.S11_4);
+        assert(file.isATest);
+    });
+
+    it('in promise_length', function () {
+        var file = parser.parseFile(fixtures.promise_length);
+        assert(file.isATest);
     });
 });
 
