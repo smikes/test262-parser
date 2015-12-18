@@ -78,7 +78,7 @@ it('recovers from bad YAML', function () {
 
     assert.throws(function () {
         file = parser.parseFile(file);
-    }, /YAML/);
+    }, /YAML|insufficient_indent/);
 });
 
 it('decides if a test is async', function () {
