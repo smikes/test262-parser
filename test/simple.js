@@ -133,11 +133,11 @@ describe('works on non-formatted files', function () {
     });
 
     it('does not fail if no newline at end of file', function () {
-        var file = parser.parseFile(fixtures.no_newline);
+        parser.parseFile(fixtures.no_newline);
     });
 });
 
-describe('reports valid test262 file', function() {
+describe('reports valid test262 file', function () {
     it('in S72', function () {
         var file = parser.parseFile(fixtures.S72);
         assert(file.isATest);
@@ -155,44 +155,44 @@ describe('reports valid test262 file', function() {
 });
 
 describe('reports non-test262 file', function () {
-  it('detects a non-test262 file', function () {
-    var file = parser.parseFile(fixtures.issue_9);
+    it('detects a non-test262 file', function () {
+        var file = parser.parseFile(fixtures.issue_9);
 
-    assert(!file.isATest)
-  });
+        assert(!file.isATest);
+    });
 });
 
 describe('has a stream interface', function () {
-// should be last test: ends stream (not repeatable)
-it('provides a stream interface', function (done) {
-    var counts = {
-        processed: 0,
-        error: 0
-    };
+    // should be last test: ends stream (not repeatable)
+    it('provides a stream interface', function (done) {
+        var counts = {
+            processed: 0,
+            error: 0
+        };
 
-    parser.on('data', function (f) {
-        assert.equal(f.file, 'S72');
-        assert.equal(f.attrs.es5id, '7.2_A1.1_T1');
-        counts.processed += 1;
-    });
-    parser.on('error', function (e) {
-        assert.ok(/YAML/.test(e));
-        counts.error += 1;
-    });
-    parser.on('end', function () {
-        assert.equal(counts.processed, 1);
-        assert.equal(counts.error, 1);
-        done();
-    });
+        parser.on('data', function (f) {
+            assert.equal(f.file, 'S72');
+            assert.equal(f.attrs.es5id, '7.2_A1.1_T1');
+            counts.processed += 1;
+        });
+        parser.on('error', function (e) {
+            assert.ok(/YAML/.test(e));
+            counts.error += 1;
+        });
+        parser.on('end', function () {
+            assert.equal(counts.processed, 1);
+            assert.equal(counts.error, 1);
+            done();
+        });
 
-    parser.write({
-        file: 'S72',
-        contents: fixtures.S72
+        parser.write({
+            file: 'S72',
+            contents: fixtures.S72
+        });
+        parser.write({
+            file: 'badYAML.js',
+            contents: fixtures.badYAML
+        });
+        parser.end();
     });
-    parser.write({
-        file: 'badYAML.js',
-        contents: fixtures.badYAML
-    });
-    parser.end();
-});
 });
