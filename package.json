@@ -1,6 +1,6 @@
 {
-  "name": "test262-parser",
-  "version": "2.0.7",
+  "name": "@adrianheine/test262-parser",
+  "version": "2.1.0",
   "description": "Parse a test262-format test and provide API",
   "main": "lib/parser.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/smikes/test262-parser.git"
+    "url": "https://github.com/adrianheine/test262-parser.git"
   },
   "keywords": [
     "test262",
@@ -23,7 +23,8 @@
   ],
   "author": "Brian Terlson",
   "contributors": [
-    "Sam Mikes"
+    "Sam Mikes",
+    "Adrian Heine"
   ],
   "license": "MSFT MIT-like",
   "directories": [
@@ -31,9 +32,9 @@
     "doc"
   ],
   "bugs": {
-    "url": "https://github.com/smikes/test262-parser/issues"
+    "url": "https://github.com/adrianheine/test262-parser/issues"
   },
-  "homepage": "https://github.com/smikes/test262-parser",
+  "homepage": "https://github.com/adrianheine/test262-parser",
   "devDependencies": {
     "istanbul": "^0.4",
     "jslint": "^0.12",
