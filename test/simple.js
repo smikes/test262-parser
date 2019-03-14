@@ -14,7 +14,8 @@ var parser = require('../lib/parser'),
         badYAML: 'test/fixtures/badYAML.js',
         issue_9: 'test/fixtures/issue_9.js',
         no_newline: 'test/fixtures/no_newline.js',
-        promise_length: 'test/fixtures/promise_length.js'
+        promise_length: 'test/fixtures/promise_length.js',
+        hashbang_multi_line_comment: 'test/fixtures/hashbang-multi-line-comment.js'
     };
 
 Object.keys(fixtures).forEach(function (k) {
@@ -134,6 +135,13 @@ describe('works on non-formatted files', function () {
 
     it('does not fail if no newline at end of file', function () {
         var file = parser.parseFile(fixtures.no_newline);
+    });
+});
+
+describe('works with test content preceeding the frontmatter', function () {
+    it('correctly identifies test content before the YAML frontmatter', function () {
+        var file = parser.parseFile(fixtures.hashbang_multi_line_comment);
+        assert.equal(file.contents, "#!/*\nthese characters should not be considered within a comment\n*/\n");
     });
 });
 
