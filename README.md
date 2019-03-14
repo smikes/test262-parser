@@ -24,7 +24,7 @@ If the input does not contain YAML frontmatter, some of the above parsing is sti
 ```js
 'use strict';
 var fs = require('fs');
-var test262Parser = require('test262-parser');
+var test262Parser = require('@adrianheine/test262-parser');
 
 var rawTest = fs.readFileSync('built-ins/Array/prototype/includes/array-like.js');
 
@@ -69,7 +69,7 @@ The `extractYAML` function takes a string containing the text contents and retur
 ```js
 'use strict';
 var fs = require('fs');
-var test262Parser = require('test262-parser');
+var test262Parser = require('@adrianheine/test262-parser');
 
 var testContents = fs.readFileSync('built-ins/Array/prototype/includes/array-like.js');
 
@@ -91,7 +91,7 @@ The default export of the module is a transform stream factory. Every time you w
 ```js
 'use strict';
 var fs = require('fs');
-var test262Parser = require('test262-parser');
+var test262Parser = require('@adrianheine/test262-parser');
 
 var transformStream = test262Parser();
 transformStream.pipe(process.stdout);

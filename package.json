@@ -1,6 +1,6 @@
 {
   "name": "test262-parser",
-  "version": "2.0.8",
+  "version": "2.0.10",
   "description": "Parse a test262-format test and provide API",
   "main": "lib/parser.js",
   "scripts": {
@@ -23,7 +23,8 @@
   ],
   "author": "Brian Terlson",
   "contributors": [
-    "Sam Mikes"
+    "Sam Mikes",
+    "Adrian Heine"
   ],
   "license": "MSFT MIT-like",
   "directories": [
