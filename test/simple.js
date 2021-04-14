@@ -8,11 +8,14 @@ var parser = require('../lib/parser'),
     assert = require('assert'),
     through = require('through'),
     fixtures = {
-        S72: 'test/fixtures/S7.2_A1.1_T1.js',
         S11_4: 'test/fixtures/11.4.1-5-a-5gs.js',
-        badYAML: 'test/fixtures/badYAML.js',
+        S72: 'test/fixtures/S7.2_A1.1_T1.js',
         async: 'test/fixtures/async.js',
-        no_newline: 'test/fixtures/no_newline.js'
+        badYAML: 'test/fixtures/badYAML.js',
+        issue_9: 'test/fixtures/issue_9.js',
+        no_newline: 'test/fixtures/no_newline.js',
+        promise_length: 'test/fixtures/promise_length.js',
+        hashbang_multi_line_comment: 'test/fixtures/hashbang-multi-line-comment.js'
     };
 
 Object.keys(fixtures).forEach(function (k) {
@@ -63,7 +66,8 @@ it('parses an empty file', function () {
             includes: [],
             flags: {}
         },
-        copyright: ''
+        copyright: '',
+        isATest: false
     }, file);
 });
 
@@ -75,7 +79,7 @@ it('recovers from bad YAML', function () {
 
     assert.throws(function () {
         file = parser.parseFile(file);
-    }, /YAML/);
+    }, /YAML|insufficient_indent/);
 });
 
 it('decides if a test is async', function () {
@@ -130,40 +134,73 @@ describe('works on non-formatted files', function () {
     });
 
     it('does not fail if no newline at end of file', function () {
-        var file = parser.parseFile(fixtures.no_newline);
+        parser.parseFile(fixtures.no_newline);
     });
 });
 
-
-// should be last test: ends stream (not repeatable)
-it('provides a stream interface', function (done) {
-    var counts = {
-        processed: 0,
-        error: 0
-    };
-
-    parser.on('data', function (f) {
-        assert.equal(f.file, 'S72');
-        assert.equal(f.attrs.es5id, '7.2_A1.1_T1');
-        counts.processed += 1;
+describe('works with test content preceeding the frontmatter', function () {
+    it('correctly identifies test content before the YAML frontmatter', function () {
+        var file = parser.parseFile(fixtures.hashbang_multi_line_comment);
+        assert.equal(file.contents, "#!/*\nthese characters should not be considered within a comment\n*/\n");
     });
-    parser.on('error', function (e) {
-        assert.ok(/YAML/.test(e));
-        counts.error += 1;
-    });
-    parser.on('end', function () {
-        assert.equal(counts.processed, 1);
-        assert.equal(counts.error, 1);
-        done();
+});
+
+describe('reports valid test262 file', function () {
+    it('in S72', function () {
+        var file = parser.parseFile(fixtures.S72);
+        assert(file.isATest);
     });
 
-    parser.write({
-        file: 'S72',
-        contents: fixtures.S72
+    it('in S11_4', function () {
+        var file = parser.parseFile(fixtures.S11_4);
+        assert(file.isATest);
     });
-    parser.write({
-        file: 'badYAML.js',
-        contents: fixtures.badYAML
+
+    it('in promise_length', function () {
+        var file = parser.parseFile(fixtures.promise_length);
+        assert(file.isATest);
     });
-    parser.end();
+});
+
+describe('reports non-test262 file', function () {
+    it('detects a non-test262 file', function () {
+        var file = parser.parseFile(fixtures.issue_9);
+
+        assert(!file.isATest);
+    });
+});
+
+describe('has a stream interface', function () {
+    // should be last test: ends stream (not repeatable)
+    it('provides a stream interface', function (done) {
+        var counts = {
+            processed: 0,
+            error: 0
+        };
+
+        parser.on('data', function (f) {
+            assert.equal(f.file, 'S72');
+            assert.equal(f.attrs.es5id, '7.2_A1.1_T1');
+            counts.processed += 1;
+        });
+        parser.on('error', function (e) {
+            assert.ok(/YAML/.test(e));
+            counts.error += 1;
+        });
+        parser.on('end', function () {
+            assert.equal(counts.processed, 1);
+            assert.equal(counts.error, 1);
+            done();
+        });
+
+        parser.write({
+            file: 'S72',
+            contents: fixtures.S72
+        });
+        parser.write({
+            file: 'badYAML.js',
+            contents: fixtures.badYAML
+        });
+        parser.end();
+    });
 });

@@ -1,6 +1,6 @@
 {
   "name": "test262-parser",
-  "version": "2.0.4",
+  "version": "2.0.10",
   "description": "Parse a test262-format test and provide API",
   "main": "lib/parser.js",
   "scripts": {
@@ -23,7 +23,8 @@
   ],
   "author": "Brian Terlson",
   "contributors": [
-    "Sam Mikes"
+    "Sam Mikes",
+    "Adrian Heine"
   ],
   "license": "MSFT MIT-like",
   "directories": [
@@ -35,10 +36,10 @@
   },
   "homepage": "https://github.com/smikes/test262-parser",
   "devDependencies": {
-    "istanbul": "^0.3.2",
-    "jslint": "^0.6.2",
-    "mocha": "^2.0.1",
-    "yuidocjs": "^0.4.0"
+    "istanbul": "^0.4",
+    "jslint": "^0.12",
+    "mocha": "^6",
+    "yuidocjs": "^0.10"
   },
   "dependencies": {
     "js-yaml": "^3.2.1",
