@@ -1,5 +1,9 @@
 # Parse test262 test files
 
+This repository IS NO LONGER MAINTAINED.
+
+Please refer to https://github.com/tc39/test262
+
 This package will allow you to parse [test262](https://github.com/tc39/test262/) test files into their component pieces, for further use and manipulation.
 
 ## API
